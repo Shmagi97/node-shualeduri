@@ -16,10 +16,16 @@
       <div class="firstDiv">
         <h1 class="rame">This is great</h1>
         <p>Welcome to students page</p>
-        <p><%= name %></p>
+        <!-- <p><%=studentsList -%></p> -->
+
+        <% studentsList = studentsList.map(function(elem) { %>
+        <p><%= elem.firstName %></p>
+        <% }); %>
       </div>
     </main>
 
     <footer></footer>
   </body>
 </html>
+
+<!-- <p><%- studentsList.join(" | ") %></p> -->

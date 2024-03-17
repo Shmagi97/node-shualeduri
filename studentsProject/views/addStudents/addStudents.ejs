@@ -19,18 +19,10 @@
             url: "/registeredUsers",
             data: formData,
             success: function (response) {
-              const firstName = $("#fname").val();
-              const lastName = $("#lname").val();
-
-              alert(
-                "მომხმარებელი" +
-                  "  " +
-                  firstName +
-                  " " +
-                  lastName +
-                  "  " +
-                  "დამატებულია "
-              );
+              // const firstName = $("#fname").val();
+              // const lastName = $("#lname").val();
+              alert(response.success);
+              window.location = "http://localhost:3000/students";
             },
             error: function (xhr, status, error) {
               alert(" რეგისტრაცია წარუმატებელია ");

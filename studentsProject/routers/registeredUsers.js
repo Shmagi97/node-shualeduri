@@ -1,13 +1,10 @@
 import express from "express";
-import connection from "../connectionMysql/connectMysql.js";
-import { PrismaClient } from "@prisma/client";
+import { connection, prisma } from "../connectionMysql/connectMysql.js";
 
 const registeredUsers = express.Router();
-const prisma = new PrismaClient();
 
 registeredUsers.post("/", async (req, res) => {
   // vqmni monacemta bazas da teibls qverebis gamoyenebit
-
   connection.query(
     "CREATE DATABASE IF NOT EXISTS registeredStudents",
     (error, results, fields) => {
@@ -38,20 +35,19 @@ registeredUsers.post("/", async (req, res) => {
   connection.end();
 
   const { firstName, lastName, age } = req.body;
-  console.log(typeof age);
-  //   const getUsers = prisma.world.findMany();
-  //   res.json(getUsers);
-  //   console.log(getUsers);
 
   const createUsers = await prisma.students.create({
     data: {
-      firstName: firstName,
-      lastName: lastName,
-      age: age,
+      firstName,
+      lastName,
+      age,
     },
   });
 
-  console.log(createUsers);
+  if (createUsers)
+    res
+      .status(200)
+      .json({ success: `მომხმარებელი ${firstName} ${lastName} დამატებულია` });
 });
 
 export default registeredUsers;

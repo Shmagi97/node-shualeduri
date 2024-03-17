@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import mysql2 from "mysql2";
 
 const connection = mysql2.createConnection({
@@ -13,4 +14,6 @@ connection.connect((err) => {
   console.log("Connected to MySQL server");
 });
 
-export default connection;
+const prisma = new PrismaClient();
+
+export { connection, prisma };
