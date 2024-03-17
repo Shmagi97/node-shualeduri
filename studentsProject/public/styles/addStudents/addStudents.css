@@ -1,0 +1,19 @@
+.sectionAddstudents {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.sectionAddstudents > form {
+  display: grid;
+  row-gap: 20px;
+}
+
+.sectionAddstudents > form > label {
+  min-width: 200px;
+}
+
+.sectionAddstudents > form > input {
+  min-width: 200px;
+  height: 30px;
+}

@@ -6,16 +6,17 @@
       type="text/css"
       href="/styles/homePage/homePage.css"
     />
-    <!-- <link rel="stylesheet" href="../views/header/header.ejs"> -->
+    <!-- <link rel="stylesheet" href="../../views/header/header.ejs"> -->
   </head>
   <body class="container">
     <!-- header ejs -->
-    <%- include('../views/header/header.ejs'); %>
+    <%- include('../../views/header/header.ejs'); %>
 
     <main>
       <div class="firstDiv">
         <h1 class="rame">This is great</h1>
-        <p>Welcome to templating using EJS</p>
+        <p>Welcome to students page</p>
+        <p><%= name %></p>
       </div>
     </main>
 
