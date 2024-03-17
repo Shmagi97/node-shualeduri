@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
+      // javaskriptis biblioteka jQuery
       $(document).ready(function () {
         $("#addStudentForm").submit(function (event) {
           event.preventDefault();
@@ -18,10 +19,21 @@
             url: "/registeredUsers",
             data: formData,
             success: function (response) {
-              console.log("Data successfully submitted");
+              const firstName = $("#fname").val();
+              const lastName = $("#lname").val();
+
+              alert(
+                "მომხმარებელი" +
+                  "  " +
+                  firstName +
+                  " " +
+                  lastName +
+                  "  " +
+                  "დამატებულია "
+              );
             },
             error: function (xhr, status, error) {
-              console.error("Error occurred:", error);
+              alert(" რეგისტრაცია წარუმატებელია ");
             },
           });
         });
@@ -52,7 +64,7 @@
           />
 
           <label for="age">Age:</label>
-          <input type="text" id="age" name="age" placeholder="Age" />
+          <input type="number" id="age" name="age" placeholder="Age" />
 
           <button type="submit">Add</button>
         </form>

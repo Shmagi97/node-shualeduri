@@ -9,7 +9,7 @@ homePage.get("/", (req, res) => {
 });
 
 // homePage.get("/", async (req, res) => {
-//   const getUsers = await prisma.city.findMany();
+//   const getUsers = await prisma.students.findMany();
 //   res.json(getUsers);
 //   console.log(getUsers);
 // });
