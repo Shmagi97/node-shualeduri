@@ -4,28 +4,53 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="/styles/homePage/homePage.css"
+      href="/styles/students/students.css"
     />
-    <!-- <link rel="stylesheet" href="../../views/header/header.ejs"> -->
+    <!-- <link rel="stylesheet" href="/styles/students/students.css"> -->
   </head>
   <body class="container">
     <!-- header ejs -->
     <%- include('../../views/header/header.ejs'); %>
-
+  
     <main>
       <div class="firstDiv">
-        <h1 class="rame">This is great</h1>
-        <p>Welcome to students page</p>
-        <!-- <p><%=studentsList -%></p> -->
 
-        <% studentsList = studentsList.map(function(elem) { %>
-        <p><%= elem.firstName %></p>
-        <% }); %>
+        <h2>User Information</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+  
+                 <% if ( typeof users === 'object' && users.length > 0 ) { %>
+                  <% console.log( typeof users ) %>
+                  <% users.map((el)=> { %>
+                    <tr>
+                      <td> <%= el.firstName %> </td>
+                      <td> <%= el.lastName %> </td>
+                      <td> <%= el.age %> </td>
+                    </tr>
+                  <% }) %>
+
+                  <% } else { %>
+                      <h1 class="dataH1Info">The data is empty</h1>
+                 <% } %>
+                
+            </tbody>
+        </table>
+      
       </div>
+      <a href="/addStudents">
+        <button class="register"> Registration Students</button>
+      </a>
     </main>
 
     <footer></footer>
   </body>
 </html>
 
-<!-- <p><%- studentsList.join(" | ") %></p> -->

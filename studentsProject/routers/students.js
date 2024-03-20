@@ -4,10 +4,19 @@ import { prisma } from "../connectionMysql/connectMysql.js";
 const students = express.Router();
 
 students.get("/", async (req, res) => {
-  const studentsList = await prisma.students.findMany();
 
-  const name = "studentsList";
-  res.render("students/students", { studentsList });
+    try {
+    
+      const users = await prisma.students.findMany();
+      res.render("students/students", { users });
+ 
+    } catch (err) {
+
+      const users = 'no'
+      res.render("students/students", {users})
+     
+    }
+  
 });
 
 export default students;
