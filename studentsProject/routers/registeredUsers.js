@@ -23,6 +23,18 @@ registeredUsers.post("/", async (req, res) => {
 
     } = req.body;
 
+    if( firstName && 
+        lastName &&
+        age &&
+        userName &&
+        password  ) {
+
+          var firstNameTrim = firstName.trim()
+          var lastNameTrim = lastName.trim()
+          var userNameTrim = userName.trim()
+          var passwordTrim = password.trim()
+        }
+
   if (  (typeof logginedPassword ==='string' && logginedPassword.length > 0) && 
         (typeof logginedUserName === 'string' && logginedUserName.length > 0)
      ) {
@@ -46,31 +58,31 @@ registeredUsers.post("/", async (req, res) => {
 
   } else if (
 
-    firstName, 
-    lastName,
-    age, 
-    userName, 
-    password 
+    firstNameTrim.length !== 0 && 
+    lastNameTrim.length !== 0  &&
+    age.length !== 0 &&
+    userNameTrim.length !== 0  &&
+    passwordTrim.length !== 0
 
     ) {
 
       const registeredValid = await prisma.students.findFirst({
         where: {
-          userName : userName,
+          userName : userNameTrim,
         },
         })
 
         if(registeredValid){
           res.status(202).json({error: 'ასეთი მომხმარებელი უკვე არსებობს'})
         } else {
-
+         
           const createUsers = await prisma.students.create({
             data: {
-              firstName,
-              lastName,
+              firstName: firstNameTrim,
+              lastName: lastNameTrim,
               age,
-              userName,
-              password,
+              userName: userNameTrim,
+              password: passwordTrim,
             },
           });
         
@@ -119,6 +131,8 @@ registeredUsers.post("/", async (req, res) => {
 
     res.json({sucess: 'ინფორმაცია წაიშალა'})
 
+  } else {
+    res.json({error: 'სერვერის შეცდომა "რეგისტრაცია წარუმატებელია"'})
   }
 
 });
