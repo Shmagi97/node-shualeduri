@@ -11,6 +11,6 @@ routers.use("/", homePage);
 routers.use("/addStudents", addStudents);
 routers.use("/students", students);
 routers.use("/registeredUsers", registeredUsers);
-routers.use('/logginedUsers/:usersID', logginedUsers)
+routers.use('/logginedUsers', logginedUsers)
 
 export default routers;

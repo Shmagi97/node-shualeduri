@@ -5,44 +5,76 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="/styles/addStudents/addStudents.css"
+      href="/styles/registeredUser/registeredUser.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
-      // javaskriptis biblioteka jQuery
-      $(document).ready(function () {
-        $("#addStudentForm").submit(function (event) {
-          event.preventDefault();
-          var formData = $(this).serialize();
-          console.log(formData);
-          $.ajax({
-            type: "POST",
-            url: "/registeredUsers",
-            data: formData,
-            success: function (response) {
-              // const firstName = $("#fname").val();
-              // const lastName = $("#lname").val();
-              // alert(response);
-              console.log(response);
-              // window.location = "http://localhost:3000/students";
-            },
-            error: function (xhr, status, error) {
-              alert("error ", error);
-            },
-          });
-        });
-      });
+           
+        //   $.ajax({
+        //     type: "GET",
+        //     url: "/registeredUsers",
+        //     success: function (response) {
+        //       // const firstName = $("#fname").val();
+        //       // const lastName = $("#lname").val();
+        //       // alert(response);
+        //       console.log(response);
+        //       // window.location = "http://localhost:3000/students";
+        //     },
+        //     error: function (xhr, status, error) {
+        //       alert("error ", error);
+        //     },
+        //    });
+
+
     </script>
   </head>
   <body class="container">
     <!-- header ejs -->
     <%- include('../../views/header/header.ejs'); %>
-
+ 
+    <% console.log(faindedUser) %>
     <main>
-      <section class="sectionAddstudents">
-            <h1>loggined Users Page</h1>
-      </section>
+        <div class="firstDiv">
+      
+                     <% if ( typeof faindedUser === 'object' && faindedUser.length > 0 ) { %>
+
+                        <h2>User Information</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Age</th>
+                                    <th>Edit</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                     
+                      <% faindedUser.map((el)=> { %>
+                        <tr>
+                          <td> <%= el.firstName %> </td>
+                          <td> <%= el.lastName %> </td>
+                          <td> <%= el.age %> </td>
+                          <td> 
+                            <div class="buttonsDiv">
+                                <button>edit</button>
+                                <button>delete</button>
+                            </div> 
+                          </td>
+                        
+                        </tr>
+                      <% }) %>
+    
+                      <% } else { %>
+                          <h1 class="dataH1Info">თქვენ არ ხართ რეგისტრირებული , გთხოვთ გაიარეთ რეგისტრაცია !</h1>
+                     <% } %>
+                    
+                </tbody>
+            </table>
+          
+          </div>
     </main>
 
     <footer></footer>
