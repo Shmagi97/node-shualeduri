@@ -11,20 +11,49 @@
 
     <script>
            
-        //   $.ajax({
-        //     type: "GET",
-        //     url: "/registeredUsers",
-        //     success: function (response) {
-        //       // const firstName = $("#fname").val();
-        //       // const lastName = $("#lname").val();
-        //       // alert(response);
-        //       console.log(response);
-        //       // window.location = "http://localhost:3000/students";
-        //     },
-        //     error: function (xhr, status, error) {
-        //       alert("error ", error);
-        //     },
-        //    });
+        $(document).ready(function () {
+        $("#edit").click( ()=> {
+   
+            const firstNameEdit = $("#firstNameID").val().trim();
+            const lastNameEdit = $("#lastNameID").val().trim();
+            const ageEdit = $("#ageID").val().trim();
+            const useridEdit = $("#hidenUserID").val().trim()
+ 
+          $.ajax({
+            type: "POST",
+            url: "/registeredUsers",
+            data: { firstNameEdit,  lastNameEdit, ageEdit, useridEdit},
+            success: function (response) {
+              alert(response.sucess)
+            
+            },
+            error: function (xhr, status, error) {
+             console.log(error);  
+            },
+          });
+        });
+
+        // delete
+  
+         $("#delete").click( ()=> {
+            
+            const useridEdDelete = $("#hidenUserID").val().trim()
+
+            $.ajax({
+            type: "POST",
+            url: "/registeredUsers",
+            data: { useridEdDelete },
+            success: function (response) {
+                alert(response.sucess)
+                location.reload()
+            },
+            error: function (xhr, status, error) {
+                console.log(error);  
+            },
+            });
+            });
+
+      });
 
 
     </script>
@@ -32,13 +61,12 @@
   <body class="container">
     <!-- header ejs -->
     <%- include('../../views/header/header.ejs'); %>
- 
-    <% console.log(faindedUser) %>
+
     <main>
         <div class="firstDiv">
       
                      <% if ( typeof faindedUser === 'object' && faindedUser.length > 0 ) { %>
-
+                       
                         <h2>User Information</h2>
                         <table>
                             <thead>
@@ -54,13 +82,28 @@
                      
                       <% faindedUser.map((el)=> { %>
                         <tr>
-                          <td> <%= el.firstName %> </td>
-                          <td> <%= el.lastName %> </td>
-                          <td> <%= el.age %> </td>
+                          <td> 
+                            <input type="text" name="firstName"
+                             value= ' <%= el.firstName %>'
+                             id="firstNameID" >
+                         </td>
+
+                          <td>
+                             <input type="text" name="lastName" 
+                             value= ' <%= el.lastName %> ' 
+                             id="lastNameID">
+                         </td>
+
+                          <td>
+                             <input type="text" name="age"
+                              value= ' <%= el.age %>  '
+                              id="ageID" >
+                          </td>
+
                           <td> 
                             <div class="buttonsDiv">
-                                <button>edit</button>
-                                <button>delete</button>
+                                <button id="edit">edit</button>
+                                <button id="delete">delete</button>
                             </div> 
                           </td>
                         
@@ -68,7 +111,7 @@
                       <% }) %>
     
                       <% } else { %>
-                          <h1 class="dataH1Info">თქვენ არ ხართ რეგისტრირებული , გთხოვთ გაიარეთ რეგისტრაცია !</h1>
+                          <h1 class="dataH1Info"> <%= faindedUser %></h1>
                      <% } %>
                     
                 </tbody>
@@ -76,8 +119,13 @@
           
           </div>
     </main>
-
     <footer></footer>
+    <style>
+       .userIDhiden{
+         display: none;
+       }
+    </style>
+    <input type="text" id="hidenUserID" value='  <%= userId %> ' class="userIDhiden">
   </body>
 </html>
 

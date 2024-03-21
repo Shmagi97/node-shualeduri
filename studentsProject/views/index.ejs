@@ -30,7 +30,7 @@
             url: "/registeredUsers",
             data: formData,
             success: function (response) {
-              console.log(response);
+            
               window.location = `http://localhost:3000/logginedUsers/${response.userID}/${response.randomUserID}` ;
             },
             error: function (xhr, status, error) {

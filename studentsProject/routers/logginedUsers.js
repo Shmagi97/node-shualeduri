@@ -26,11 +26,11 @@ logginedUsers.get('/:usersID/:randomUserID', async (req, res)=> {
           return reset;
         });
 
-        res.render('logginedUsers/logginedUsers', {faindedUser})
+        res.render('logginedUsers/logginedUsers', {faindedUser, userId})
 
     } else {
         
-        const faindedUser = 'not user'
+        const faindedUser = 'თქვენ არ ხართ რეგისტრირებული , გთხოვთ გაიარეთ რეგისტრაცია !'
         res.render('logginedUsers/logginedUsers', {faindedUser})
     }
 })

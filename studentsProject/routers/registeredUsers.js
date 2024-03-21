@@ -14,7 +14,12 @@ registeredUsers.post("/", async (req, res) => {
      userName, 
      password , 
      logginedPassword, 
-     logginedUserName
+     logginedUserName,
+     firstNameEdit,  
+     lastNameEdit,
+     ageEdit,
+     useridEdit,
+     useridEdDelete,
 
     } = req.body;
 
@@ -75,6 +80,45 @@ registeredUsers.post("/", async (req, res) => {
               .json({ success: `მომხმარებელი ${firstName} ${lastName} დამატებულია` });
         }
     
+  } else if ( firstNameEdit && lastNameEdit && ageEdit && useridEdit ){
+    
+      const userIDNumber = parseInt(useridEdit)
+
+      await prisma.students.update({
+
+      where: {
+        ID: userIDNumber
+      },
+
+      data: {
+        firstName: firstNameEdit,
+        lastName: lastNameEdit,
+        age: ageEdit,
+      }
+ 
+    });
+
+     res.json({sucess: 'მონაცემები განახლდა '})
+
+  } else if (useridEdDelete) {
+    
+    const userIDNumber = parseInt(useridEdDelete)
+
+    await prisma.students.update({
+
+      where: {
+        ID: userIDNumber
+      },
+      data: {
+        firstName: '',
+        lastName: '',
+        age: '',
+      }
+ 
+    });
+
+    res.json({sucess: 'ინფორმაცია წაიშალა'})
+
   }
 
 });
