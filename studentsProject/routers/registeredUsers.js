@@ -23,21 +23,6 @@ registeredUsers.post("/", async (req, res) => {
 
     } = req.body;
 
-    var trim = false
-
-    if( firstName && 
-        lastName &&
-        age &&
-        userName &&
-        password  ) {
-          
-          trim = true
-          var firstNameTrim = firstName.trim()
-          var lastNameTrim = lastName.trim()
-          var userNameTrim = userName.trim()
-          var passwordTrim = password.trim()
-        }
-
   if (  (typeof logginedPassword ==='string' && logginedPassword.length > 0) && 
         (typeof logginedUserName === 'string' && logginedUserName.length > 0)
      ) {
@@ -59,23 +44,17 @@ registeredUsers.post("/", async (req, res) => {
       res.status(300).json({notValuid: 'არასწორი სახელია ან პაროლი'})
     }
 
-  } else if (
-
-    trim == true
-
-    ) {
-
-      if(
-        firstNameTrim.length !== 0 && 
-        lastNameTrim.length !== 0  &&
-        age.length !== 0 &&
-        userNameTrim.length !== 0  &&
-        passwordTrim.length !== 0
+  }  else if(
+        firstName && 
+        lastName  &&
+        age &&
+        userName   &&
+        password
       ) {
 
         const registeredValid = await prisma.students.findFirst({
           where: {
-            userName : userNameTrim,
+            userName : userName,
           },
           })
   
@@ -85,11 +64,11 @@ registeredUsers.post("/", async (req, res) => {
            
             const createUsers = await prisma.students.create({
               data: {
-                firstName: firstNameTrim,
-                lastName: lastNameTrim,
+                firstName,
+                lastName,
                 age,
-                userName: userNameTrim,
-                password: passwordTrim,
+                userName,
+                password
               },
             });
           
@@ -99,35 +78,7 @@ registeredUsers.post("/", async (req, res) => {
                 .json({ success: `მომხმარებელი ${firstName} ${lastName} დამატებულია` });
           }
 
-      }
-
-      // const registeredValid = await prisma.students.findFirst({
-      //   where: {
-      //     userName : userNameTrim,
-      //   },
-      //   })
-
-      //   if(registeredValid){
-      //     res.status(202).json({error: 'ასეთი მომხმარებელი უკვე არსებობს'})
-      //   } else {
-         
-      //     const createUsers = await prisma.students.create({
-      //       data: {
-      //         firstName: firstNameTrim,
-      //         lastName: lastNameTrim,
-      //         age,
-      //         userName: userNameTrim,
-      //         password: passwordTrim,
-      //       },
-      //     });
-        
-      //     if (createUsers)
-      //       res
-      //         .status(200)
-      //         .json({ success: `მომხმარებელი ${firstName} ${lastName} დამატებულია` });
-      //   }
-    
-  } else if ( firstNameEdit && lastNameEdit && ageEdit && useridEdit ){
+      } else if ( firstNameEdit && lastNameEdit && ageEdit && useridEdit ){
     
       const userIDNumber = parseInt(useridEdit)
 

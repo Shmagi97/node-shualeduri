@@ -9,34 +9,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
-      // javaskriptis biblioteka jQuery
-      $(document).ready(function () {
-        $("#addStudentForm").submit(function (event) {
-          event.preventDefault();
+
+    $(document).ready(function () {
+      $("#addStudentForm").submit(function (event) {
+        event.preventDefault();
+
+        var inputFields = $(this).find('input[type="text"], input[type="number"], input[type="password"]');
+
+        var isAnyInputEmpty = false;
+        inputFields.each(function () {
+          if ($(this).val().trim() === '') {
+            isAnyInputEmpty = true;
+            return false; 
+          }
+        });
+
+        if (isAnyInputEmpty) {
+          alert("Please fill all the fields");
+        } else {
+    
           var formData = $(this).serialize();
           $.ajax({
             type: "POST",
             url: "/registeredUsers",
             data: formData,
             success: function (response) {
-            
-              if(response.success !== undefined){
+              if (response.success !== undefined) {
                 alert(response.success);
                 window.location = "http://localhost:3000/students";
-              }  
-              else {
+              } else {
                 alert(response.error);
-               
               }
-
-            
             },
             error: function (xhr, status, error) {
               alert(" რეგისტრაცია წარუმატებელია ");
             },
           });
-        });
+        }
       });
+    });
+    
     </script>
   </head>
   <body class="container">
