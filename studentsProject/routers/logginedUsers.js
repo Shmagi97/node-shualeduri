@@ -29,9 +29,9 @@ logginedUsers.get('/:usersID/:randomUserID', async (req, res)=> {
         res.render('logginedUsers/logginedUsers', {faindedUser, userId})
 
     } else {
-        
+        console.log('else');
         const faindedUser = 'თქვენ არ ხართ რეგისტრირებული , გთხოვთ გაიარეთ რეგისტრაცია !'
-        res.render('logginedUsers/logginedUsers', {faindedUser})
+        res.render('logginedUsers/logginedUsers', {faindedUser, userId})
     }
 })
 
