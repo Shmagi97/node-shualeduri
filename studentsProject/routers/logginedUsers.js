@@ -1,24 +1,29 @@
 import express from 'express'
 import { prisma } from '../connectionMysql/connectMysql.js'
 import randomString from '../connectionMysql/hashedRandom/randomString.js'
+import jwt from 'jsonwebtoken'
 
 const logginedUsers = express.Router()
 
-logginedUsers.get('/:usersID/:randomUserID', async (req, res)=> {
+logginedUsers.get('/:randomUserID/:tekenUserID', async (req, res)=> {
 
-   const userId = parseInt(req.params.usersID)
+//    const userId = parseInt(req.params.usersID)
+   const tokenID = req.params.tekenUserID
+   const secretKey = 'myFirstToken'
 
+   const getTokenDecoded = jwt.verify(tokenID, secretKey)
+  
    const findUser = await prisma.students.findFirst({
     where: {
-     ID : userId,
+     ID : getTokenDecoded.tokenUserId,
     },
     })
 
-    const checkRendomUserID = randomString(userId)
+    const checkRendomUserID = randomString(getTokenDecoded.tokenUserId)
  
     const takeRandomUserID = req.params.randomUserID
 
-    if (checkRendomUserID === takeRandomUserID){
+    if (checkRendomUserID === takeRandomUserID ){
 
         const getMasivUsers = [ findUser ]
         const faindedUser = getMasivUsers.map((el) => {
@@ -26,12 +31,11 @@ logginedUsers.get('/:usersID/:randomUserID', async (req, res)=> {
           return reset;
         });
 
-        res.render('logginedUsers/logginedUsers', {faindedUser, userId})
+        res.render('logginedUsers/logginedUsers', {faindedUser, userId : getTokenDecoded.tokenUserId})
 
     } else {
-        console.log('else');
         const faindedUser = 'თქვენ არ ხართ რეგისტრირებული , გთხოვთ გაიარეთ რეგისტრაცია !'
-        res.render('logginedUsers/logginedUsers', {faindedUser, userId})
+        res.render('logginedUsers/logginedUsers', {faindedUser, userId : getTokenDecoded.tokenUserId })
     }
 })
 

@@ -2,6 +2,7 @@ import express from "express";
 import { prisma } from "../connectionMysql/connectMysql.js";
 import randomString from "../connectionMysql/hashedRandom/randomString.js";
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const registeredUsers = express.Router();
 
@@ -9,6 +10,7 @@ registeredUsers.post("/", async (req, res) => {
 
   const saltRound = 12
   const salt = bcrypt.genSaltSync(saltRound)
+  const secretKey = 'myFirstToken'
 
   const { 
 
@@ -45,8 +47,9 @@ registeredUsers.post("/", async (req, res) => {
       if( registerEDHashedPassword ) {
        
         const randomEdUserID = randomString(logginedUsers.ID)
-        res.status(200).json({userID: logginedUsers.ID , randomUserID: randomEdUserID} )
-        
+        const token = jwt.sign({ tokenUserId: logginedUsers.ID}, secretKey, { expiresIn: '1h' })
+        res.status(200).json({ randomUserID: randomEdUserID, tekenUserID : token } )
+
       } else {
         res.status(300).json({notValuid: 'არასწორი სახელია ან პაროლი'})
       }

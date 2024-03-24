@@ -30,7 +30,7 @@
             data: formData,
             success: function (response) {
             
-              window.location = `http://localhost:3000/logginedUsers/${response.userID}/${response.randomUserID}` ;
+              window.location = `http://localhost:3000/logginedUsers/${response.randomUserID}/${response.tekenUserID}` ;
             },
             error: function (xhr, status, error) {
               alert( xhr.responseJSON.notValuid );
