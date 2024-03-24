@@ -1,10 +1,14 @@
 import express from "express";
 import { prisma } from "../connectionMysql/connectMysql.js";
 import randomString from "../connectionMysql/hashedRandom/randomString.js";
+import bcrypt from 'bcrypt'
 
 const registeredUsers = express.Router();
 
 registeredUsers.post("/", async (req, res) => {
+
+  const saltRound = 12
+  const salt = bcrypt.genSaltSync(saltRound)
 
   const { 
 
@@ -30,19 +34,24 @@ registeredUsers.post("/", async (req, res) => {
     const logginedUsers = await prisma.students.findFirst({
        where: {
         userName : logginedUserName,
-        password : logginedPassword,
        },
  
     })
 
     if(logginedUsers) {
 
-       const randomEdUserID = randomString(logginedUsers.ID)
-       res.status(200).json({userID: logginedUsers.ID , randomUserID: randomEdUserID} )
+      const registerEDHashedPassword = bcrypt.compareSync(logginedPassword, logginedUsers.password)
+     
+      if( registerEDHashedPassword ) {
+       
+        const randomEdUserID = randomString(logginedUsers.ID)
+        res.status(200).json({userID: logginedUsers.ID , randomUserID: randomEdUserID} )
+        
+      } else {
+        res.status(300).json({notValuid: 'არასწორი სახელია ან პაროლი'})
+      }
 
-    } else {
-      res.status(300).json({notValuid: 'არასწორი სახელია ან პაროლი'})
-    }
+    } 
 
   }  else if(
         firstName && 
@@ -61,6 +70,8 @@ registeredUsers.post("/", async (req, res) => {
           if(registeredValid){
             res.status(202).json({error: 'ასეთი მომხმარებელი უკვე არსებობს'})
           } else {
+
+            const hashedPassword = bcrypt.hashSync(password, salt)
            
             const createUsers = await prisma.students.create({
               data: {
@@ -68,7 +79,7 @@ registeredUsers.post("/", async (req, res) => {
                 lastName,
                 age,
                 userName,
-                password
+                password : hashedPassword
               },
             });
           
