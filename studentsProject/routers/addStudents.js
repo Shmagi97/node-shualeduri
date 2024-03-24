@@ -1,11 +1,11 @@
 import express from "express";
-import {  createDadabaseAndTable } from "../connectionMysql/connectMysql.js";
+// import {  createDadabaseAndTable } from "../connectionMysql/connectMysql.js";
 
 const addStudents = express.Router();
 
 addStudents.get("/", (req, res) => {
 
-  createDadabaseAndTable()
+  // createDadabaseAndTable()
 
   res.render("addStudents/addStudents");
 });
