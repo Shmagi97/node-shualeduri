@@ -40,6 +40,11 @@ registeredUsers.post("/", async (req, res) => {
  
     })
 
+    if (!logginedUsers) {
+
+      return  res.status(300).json({notValuid: 'არასწორი სახელია ან პაროლი'})
+    }
+
     if(logginedUsers) {
 
       const registerEDHashedPassword = bcrypt.compareSync(logginedPassword, logginedUsers.password)
